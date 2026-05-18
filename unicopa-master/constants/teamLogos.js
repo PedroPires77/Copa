@@ -1,11 +1,50 @@
-const images = require.context('../assets/jogos', false, /\.png$/);
-
-export const teamLogos = images.keys().reduce((acc, item) => {
-  const name = item
-    .replace('./', '')
-    .replace('.png', '')
-    .toLowerCase();
-
-  acc[name] = images(item);
-  return acc;
-}, {});
+export const teamLogos = {
+  alg: require('../assets/jogos/Algeria.png'),
+  arg: require('../assets/jogos/argentina.png'),
+  aus: require('../assets/jogos/australia.png'),
+  aut: require('../assets/jogos/austria.png'),
+  bel: require('../assets/jogos/belgium.png'),
+  bih: require('../assets/jogos/bosnia and herzegovina.png'),
+  bra: require('../assets/jogos/brazil.png'),
+  can: require('../assets/jogos/canada.png'),
+  civ: require('../assets/jogos/ivory coast.png'),
+  cod: require('../assets/jogos/democratic republic of congo.png'),
+  col: require('../assets/jogos/colombia.png'),
+  cpv: require('../assets/jogos/cape verde.png'),
+  cro: require('../assets/jogos/croatia.png'),
+  cuw: require('../assets/jogos/curacao.png'),
+  cze: require('../assets/jogos/czech republic.png'),
+  ecu: require('../assets/jogos/ecuador.png'),
+  egy: require('../assets/jogos/egypt.png'),
+  eng: require('../assets/jogos/england.png'),
+  esp: require('../assets/jogos/spain.png'),
+  fra: require('../assets/jogos/france.png'),
+  ger: require('../assets/jogos/germany.png'),
+  gha: require('../assets/jogos/ghana.png'),
+  hai: require('../assets/jogos/haiti.png'),
+  irn: require('../assets/jogos/iran.png'),
+  irq: require('../assets/jogos/iraq.png'),
+  jor: require('../assets/jogos/jordan.png'),
+  jpn: require('../assets/jogos/japan.png'),
+  kor: require('../assets/jogos/south korea.png'),
+  ksa: require('../assets/jogos/saudi arabia.png'),
+  mar: require('../assets/jogos/morocco.png'),
+  mex: require('../assets/jogos/mexico.png'),
+  ned: require('../assets/jogos/netherlands.png'),
+  nor: require('../assets/jogos/norway.png'),
+  nzl: require('../assets/jogos/new zealand.png'),
+  pan: require('../assets/jogos/panama.png'),
+  par: require('../assets/jogos/paraguay.png'),
+  por: require('../assets/jogos/portugal.png'),
+  qat: require('../assets/jogos/qatar.png'),
+  rsa: require('../assets/jogos/south africa.png'),
+  sco: require('../assets/jogos/scotland.png'),
+  sen: require('../assets/jogos/senegal.png'),
+  sui: require('../assets/jogos/switzerland.png'),
+  swe: require('../assets/jogos/sweden.png'),
+  tun: require('../assets/jogos/tunisia.png'),
+  tur: require('../assets/jogos/turkey.png'),
+  uru: require('../assets/jogos/uruguay.png'),
+  usa: require('../assets/jogos/united states.png'),
+  uzb: require('../assets/jogos/uzbekista\u0301n.png'),
+};

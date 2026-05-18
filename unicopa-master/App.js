@@ -13,16 +13,21 @@ export default function App() {
   const [favoritos, setFavoritos] = useState([]);
   const [grupoSelecionado, setGrupoSelecionado] = useState(null);
 
-const grupos = [...new Set(jogos.map(j => j.grupo))].sort();
+  const grupos = [...new Set(jogos.map(j => j.grupo))].sort();
 
-const toggleGrupo = (grupo) => {
-  setGrupoSelecionado(prev => prev === grupo ? null : grupo);
-};
+  const toggleGrupo = (grupo) => {
+    setGrupoSelecionado(prev => prev === grupo ? null : grupo);
+  };
 
   const toggleFavorito = (id) => {
     setFavoritos(prev =>
       prev.includes(id) ? prev.filter(f => f !== id) : [...prev, id]
     );
+  };
+
+  const formatarData = (dataStr) => {
+    const [, mes, dia] = dataStr.split('-');
+    return `${dia}/${mes}`;
   };
 
   const agruparPorData = (jogos) => {
@@ -37,13 +42,14 @@ const toggleGrupo = (grupo) => {
   };
 
   const jogosFiltrados = grupoSelecionado
-  ? jogos.filter(j => j.grupo === grupoSelecionado)
-  : jogos;
+    ? jogos.filter(j => j.grupo === grupoSelecionado)
+    : jogos;
 
-const jogosAgrupados = agruparPorData(jogosFiltrados);
+  const jogosAgrupados = agruparPorData(jogosFiltrados);
 
   const jogosTratados = Object.keys(jogosAgrupados).map(data => ({
     title: data,
+    dataFormatada: formatarData(data),
     data: jogosAgrupados[data],
     isHoje: data === hojeStr,
   }));
@@ -58,32 +64,32 @@ const jogosAgrupados = agruparPorData(jogosFiltrados);
         source={require('./assets/unicopa.png')}
       />
 
-     <Text style={styles.title}>CALENDÁRIO</Text>
+      <Text style={styles.title}>CALENDÁRIO</Text>
 
-<View style={styles.filtroContainer}>
-  {grupos.map(grupo => (
-    <TouchableOpacity
-      key={grupo}
-      style={[styles.filtroBotao, grupoSelecionado === grupo && styles.filtroBotaoAtivo]}
-      onPress={() => toggleGrupo(grupo)}
-    >
-      <Text style={[styles.filtroTexto, grupoSelecionado === grupo && styles.filtroTextoAtivo]}>
-        {grupo}
-      </Text>
-    </TouchableOpacity>
-  ))}
-</View>
+      <View style={styles.filtroContainer}>
+        {grupos.map(grupo => (
+          <TouchableOpacity
+            key={grupo}
+            style={[styles.filtroBotao, grupoSelecionado === grupo && styles.filtroBotaoAtivo]}
+            onPress={() => toggleGrupo(grupo)}
+          >
+            <Text style={[styles.filtroTexto, grupoSelecionado === grupo && styles.filtroTextoAtivo]}>
+              {grupo}
+            </Text>
+          </TouchableOpacity>
+        ))}
+      </View>
 
-     <SectionList
-  style={styles.lista}
-  sections={jogosTratados}
-  keyExtractor={(item, index) => item + index}
+      <SectionList
+        style={styles.lista}
+        sections={jogosTratados}
+        keyExtractor={(item, index) => item + index}
         renderItem={() => null}
         renderSectionHeader={({ section }) => (
           <View style={[styles.card, section.isHoje && styles.cardHoje]}>
             <View style={styles.dataContainer}>
-              <Text style={[styles.data, section.isHoje && styles.dataHoje]}>
-                {section.title}
+              <Text style={styles.data}>
+                {section.dataFormatada}
               </Text>
               {section.isHoje && (
                 <View style={styles.badgeHoje}>
@@ -124,11 +130,15 @@ const styles = StyleSheet.create({
     fontSize: 28,
     fontWeight: '700',
     color: 'white',
+    letterSpacing: 2,
+  },
+  lista: {
+    width: '100%',
   },
   card: {
-    marginTop: 20,
+    marginTop: 16,
+    marginHorizontal: 16,
     backgroundColor: '#0c1b2a',
-    width: 320,
     borderRadius: 12,
     padding: 15,
   },
@@ -140,16 +150,13 @@ const styles = StyleSheet.create({
   dataContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 10,
+    marginBottom: 12,
     gap: 8,
   },
   data: {
     color: '#f2cc2f',
     fontSize: 22,
     fontWeight: 'bold',
-  },
-  dataHoje: {
-    color: '#f2cc2f',
   },
   badgeHoje: {
     backgroundColor: '#f2cc2f',
@@ -162,35 +169,31 @@ const styles = StyleSheet.create({
     fontSize: 11,
     fontWeight: 'bold',
   },
-  lista: {
-  width: '100%',
-},
-filtroContainer: {
-  flexDirection: 'row',
-  flexWrap: 'wrap',
-  justifyContent: 'center',
-  gap: 8,
-  paddingHorizontal: 16,
-  marginTop: 12,
-  marginBottom: 4,
-},
-filtroBotao: {
-  borderWidth: 1,
-  borderColor: '#f2cc2f',
-  borderRadius: 20,
-  paddingHorizontal: 14,
-  paddingVertical: 5,
-},
-filtroBotaoAtivo: {
-  backgroundColor: '#f2cc2f',
-},
-filtroTexto: {
-  color: '#f2cc2f',
-  fontSize: 13,
-  fontWeight: 'bold',
-},
-filtroTextoAtivo: {
-  color: '#040b13',
-},
+  filtroContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    gap: 8,
+    paddingHorizontal: 16,
+    marginTop: 12,
+    marginBottom: 4,
+  },
+  filtroBotao: {
+    borderWidth: 1,
+    borderColor: '#f2cc2f',
+    borderRadius: 20,
+    paddingHorizontal: 14,
+    paddingVertical: 5,
+  },
+  filtroBotaoAtivo: {
+    backgroundColor: '#f2cc2f',
+  },
+  filtroTexto: {
+    color: '#f2cc2f',
+    fontSize: 13,
+    fontWeight: 'bold',
+  },
+  filtroTextoAtivo: {
+    color: '#040b13',
+  },
 });
-
